@@ -1,7 +1,7 @@
 apiVersion: image.openshift.io/v1
 kind: ImageStream
 metadata:
-  name: {{ template "historical-price.fullname" . }}
+  name: nodejs
 spec:
   lookupPolicy:
     local: false
