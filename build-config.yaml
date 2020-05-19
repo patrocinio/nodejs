@@ -1,0 +1,36 @@
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  name: {{ template "historical-price.fullname" . }}
+spec:
+  runPolicy: Serial
+  source:
+    type: Git
+    git:
+      uri: https://github.ibm.com/eduardop/robinhood.git
+      ref: master
+    contextDir: v4/src
+    sourceSecret:
+      name: github-credential
+
+  strategy:
+    type: Docker
+    dockerStrategy:
+      dockerfilePath: {{ template "historical-price.fullname" . }}/Dockerfile
+      env:
+        - name: acquaToken
+          valueFrom:
+            secretKeyRef:
+              key: acqua-token
+              name: acqua-token
+
+  triggers: []
+  nodeSelector: {}
+
+  output:
+    to:
+      kind: ImageStreamTag
+      name: {{ template "historical-price.fullname" . }}:latest
+
+status:
+  lastVersion: 0
