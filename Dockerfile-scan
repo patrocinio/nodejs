@@ -11,7 +11,7 @@ ARG acquaToken
 ADD https://get.aquasec.com/microscanner .
 RUN chmod +x microscanner
 RUN apt-get update
-RUN apt-get install snapd
+RUN apt-get install -y snapd
 RUN ./microscanner $acquaToken
 
 EXPOSE 8080
