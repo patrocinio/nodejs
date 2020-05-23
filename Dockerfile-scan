@@ -10,6 +10,7 @@ COPY server.js /usr/src/app
 ARG acquaToken
 ADD https://get.aquasec.com/microscanner .
 RUN chmod +x microscanner
+RUN npm install snappy
 RUN ./microscanner $acquaToken
 
 EXPOSE 8080
