@@ -1,0 +1,34 @@
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  name: node-build-config
+spec:
+  runPolicy: Serial
+  source:
+    type: Git
+    git:
+      uri: https://github.com/patrocinio/nodejs.git
+      ref: master
+
+  strategy:
+    type: Docker
+    dockerStrategy:
+      dockerfilePath: Dockerfile-scan
+      env:
+        - name: acquaToken
+          valueFrom:
+            secretKeyRef:
+              key: acqua-token
+              name: acqua-token
+
+
+  triggers: []
+  nodeSelector: {}
+
+  output:
+    to:
+      kind: ImageStreamTag
+      name: nodejs:latest
+
+status:
+  lastVersion: 0

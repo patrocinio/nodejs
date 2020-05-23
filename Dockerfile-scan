@@ -1,0 +1,17 @@
+FROM node:latest
+
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
+COPY package.json /usr/src/app
+
+RUN npm install
+COPY server.js /usr/src/app
+
+ARG acquaToken
+ADD https://get.aquasec.com/microscanner .
+RUN chmod +x microscanner
+RUN apk add --no-cache ca-certificates && update-ca-certificates
+RUN ./microscanner $acquaToken
+
+EXPOSE 8080
+CMD ["npm", "start"]
